@@ -25,6 +25,6 @@ public class HealthcheckControladorTest {
 
         assertThat(respuesta.getStatusCode().value()).isEqualTo(200);
         assertThat(cuerpo).isNotNull();
-        assertThat(cuerpo.getMensaje()).isEqualTo("pong");
+        assertThat(cuerpo.getMensaje()).isEqualTo("pongo");
     }
 }
