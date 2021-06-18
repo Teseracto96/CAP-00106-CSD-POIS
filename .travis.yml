@@ -3,5 +3,7 @@ jobs:
   include:
     - stage: compilar
       script: mvn compile
+    - stage: Testear
+      script: mvn verify
 before_install:
   - chmod +x mvnw
