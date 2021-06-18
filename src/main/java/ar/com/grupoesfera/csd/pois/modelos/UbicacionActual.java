@@ -25,4 +25,12 @@ public class UbicacionActual {
     public double getLongitud() {
         return longitud;
     }
+
+    public double setLatitud() {
+        return latitud;
+    }
+
+    public double setLongitud() {
+        return longitud;
+    }
 }
