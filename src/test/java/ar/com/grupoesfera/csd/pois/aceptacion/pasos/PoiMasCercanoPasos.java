@@ -3,22 +3,33 @@ package ar.com.grupoesfera.csd.pois.aceptacion.pasos;
 import ar.com.grupoesfera.csd.pois.aceptacion.configuracion.ContextoCompartido;
 import ar.com.grupoesfera.csd.pois.modelos.Poi;
 import ar.com.grupoesfera.csd.pois.modelos.UbicacionActual;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.javacrumbs.jsonunit.core.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class PoiMasCercanoPasos {
 
-    /*
-    @Autowired
-    private MockMvc mockMvc;
+    List<Poi> puntosDeInteres = new ArrayList<>();
+    UbicacionActual ubicacionActualRecibida = new UbicacionActual();
 
     @Autowired
-    private UbicacionActual ubicacionActual;
-     */
+    private ContextoCompartido contextoCompartido;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @When("se recibe la ubicación del usuario")
     public void seRecibeLaUbicaciónDelUsuario() {
@@ -45,7 +56,33 @@ public class PoiMasCercanoPasos {
 
         return new Poi( latCerca,  lonCerca,  NombreCercano, DescripcionCercano);
     }
-   //
 
+    @Given("que existe la ubicación {string} en latitud {double} y longitud {double}")
+    public void queExisteLaUbicaciónEnLatitudYLongitud(String nombre, double latitud, double longitud) {
+        puntosDeInteres.add(new Poi( latitud,  longitud,  nombre,""));
+    }
 
+    @And("que existe la ubicación del usuario en latitud {double} y longitud {double}")
+    public void queExisteLaUbicaciónDelUsuarioEnLatitudYLongitud(double latitud, double longitud) {
+        this.ubicacionActualRecibida = new UbicacionActual(latitud,longitud);
+    }
+
+    @When("se consulta el POI más cercano a la ubicación del usuario")
+    public void seConsultaElPOIMásCercanoALaUbicaciónDelUsuario() throws Exception {
+        ResultActions resultado = mockMvc.perform(get("/Poi/cercano"));
+        this.contextoCompartido.agregarResultado(resultado);
+
+    }
+
+    @Then("se retorna POI del {string}")
+    public void seRetornaPOIDel(String poimascercano) throws Exception {
+        ResultActions resultado = this.contextoCompartido.obtenerResultado();
+
+        resultado.andExpect(json().isEqualTo("{\n" +
+                "nombre: \"Tacos Don chuy\",            \n" +
+                "longitud: -110.89115,\n" +
+                "latitud: 27.92791,\n" +
+                "descripcion: \"\"\n" +
+                "}")       );
+    }
 }
