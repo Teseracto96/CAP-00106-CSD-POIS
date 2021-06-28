@@ -18,7 +18,7 @@ public class ServicePoi {
         	//Los dos sahuaros
             puntosDeInteres.add(new Poi(27.92485, -110.91619 , "Los dos sahuaros", "Tacos, burros y variada barra de salsas!"));
             //Pollo Feliz
-            puntosDeInteres.add(new Poi(27.92852, -110.92205 , "Pollo Feliz Restaurant", ""));
+            puntosDeInteres.add(new Poi(27.92398, -110.88695 , "Pollo Feliz Restaurant", ""));
             //Tacos don Chuy
             puntosDeInteres.add(new Poi(27.92791, -110.89115 , "Tacos Don chuy", ""));
         }
@@ -38,12 +38,13 @@ public class ServicePoi {
         public Poi poideInteresMasCercano(UbicacionActual Ubicacion) {
 
                 Poi poiMasCercano = new Poi();
-                double distanciaPuntoMasCercano=0;
+                double distanciaPuntoMasCercano = Double.MAX_VALUE;
                 for (Poi poi:puntosDeInteres) {
-                        double distanciaPuntoActual =obtenerDistancia(Ubicacion.getLatitud(),Ubicacion.getLatitud(),poi.getLatitud(),poi.getLongitud());
-                        if(distanciaPuntoMasCercano==0||distanciaPuntoActual<=distanciaPuntoMasCercano){
-                                poiMasCercano=poi;
-                        }
+                	double distanciaPuntoActual =obtenerDistancia(Ubicacion.getLatitud(),Ubicacion.getLongitud(),poi.getLatitud(),poi.getLongitud());
+                	if(distanciaPuntoActual<=distanciaPuntoMasCercano){
+                		distanciaPuntoMasCercano = distanciaPuntoActual;
+                		poiMasCercano=poi;
+                    }
                 }
 
                 //Retorna el POI mas cercano
@@ -60,20 +61,7 @@ public class ServicePoi {
          * el2 End altitude in meters
          * @returns Distance in Meters
          */
-        public static double obtenerDistancia(double latP1, double lonP1, double latP2,double lonP2) {
-
-                final int R = 6371; // Radius of the earth
-
-                double latDistance = Math.toRadians(latP2 - latP1);
-                double lonDistance = Math.toRadians(lonP2 - lonP1);
-                double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                        + Math.cos(Math.toRadians(latP1)) * Math.cos(Math.toRadians(latP2))
-                        * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-                double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                double distance = R * c * 1000; // convert to meters
-
-                distance = Math.pow(distance, 2);
-
-                return Math.sqrt(distance);
+        public static double obtenerDistancia(double x1, double y1, double x2,double y2) {
+        	return Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
         }
 }
