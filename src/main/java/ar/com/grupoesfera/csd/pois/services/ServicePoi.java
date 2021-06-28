@@ -1,38 +1,41 @@
 package ar.com.grupoesfera.csd.pois.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import ar.com.grupoesfera.csd.pois.modelos.Poi;
 import ar.com.grupoesfera.csd.pois.modelos.UbicacionActual;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ServicePoi {
 
         List<Poi> puntosDeInteres = new ArrayList<>();
 
-        public void ServicePoi(){
-                //Los dos sahuaros
-                puntosDeInteres.add(new Poi(27.92485819240602, -110.91619779813446 , "los dos sahuaros", "Tacos, burros y variada barra de salsas!"));
-                //Pollo Feliz
-                puntosDeInteres.add(new Poi(27.92852763385808, -110.92205645125398 , "Pollo Feliz", "Cadena de restaurantes informales, con pollo cocinado al estilo mexicano, otros platos tradicionales y aguas frescas"));
+        public ServicePoi(){
+
+        	//Los dos sahuaros
+            puntosDeInteres.add(new Poi(27.92485, -110.91619 , "Los dos sahuaros", "Tacos, burros y variada barra de salsas!"));
+            //Pollo Feliz
+            puntosDeInteres.add(new Poi(27.92852, -110.92205 , "Pollo Feliz Restaurant", ""));
+            //Tacos don Chuy
+            puntosDeInteres.add(new Poi(27.92791, -110.89115 , "Tacos Don chuy", ""));
         }
 
         public Poi coordenadasPOI(UbicacionActual ubicacionActual) {
 
                 //cerca
-                Poi cerca = new Poi(27.92791,-110.89115,"Tacos Don chuy","");
+                //Poi cerca = new Poi(27.92791,-110.89115,"Tacos Don chuy","");
 
                 //Lejos
                 //Poi Lejos = new Poi(27.92791,-110.89115,"Tacos Don chuy","");
 
-                return cerca;
+                return this.poideInteresMasCercano(ubicacionActual);
         }
 
         /**recorre la lista de pois y retorna el mas cercano a la ubicacion del usuario*/
-        public Poi PoideInteresMasCercano(UbicacionActual Ubicacion) {
+        public Poi poideInteresMasCercano(UbicacionActual Ubicacion) {
 
                 Poi poiMasCercano = new Poi();
                 double distanciaPuntoMasCercano=0;

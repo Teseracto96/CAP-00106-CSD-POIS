@@ -68,7 +68,10 @@ public class PoiMasCercanoPasos {
 
     @When("se consulta el POI más cercano a la ubicación del usuario")
     public void seConsultaElPOIMásCercanoALaUbicaciónDelUsuario() throws Exception {
-        ResultActions resultado = mockMvc.perform(get("/poi/cercano"));
+        ResultActions resultado = mockMvc.perform(get("/poi/cercano")
+        		.param("latitud", String.valueOf(this.ubicacionActualRecibida.getLatitud()))
+        		.param("longitud", String.valueOf(this.ubicacionActualRecibida.getLongitud()))
+        );
         this.contextoCompartido.agregarResultado(resultado);
 
     }

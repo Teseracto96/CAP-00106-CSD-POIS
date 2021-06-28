@@ -12,19 +12,20 @@ public class UbicacionActual {
         this.longitud = longitud;
     }
 
-    public double getLatitud() {
-        return latitud;
-    }
+	public double getLatitud() {
+		return latitud;
+	}
 
-    public double getLongitud() {
-        return longitud;
-    }
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
+	}
 
-    public double setLatitud() {
-        return latitud;
-    }
+	public double getLongitud() {
+		return longitud;
+	}
 
-    public double setLongitud() {
-        return longitud;
-    }
+	public void setLongitud(double longitud) {
+		this.longitud = longitud;
+	}
+
 }
