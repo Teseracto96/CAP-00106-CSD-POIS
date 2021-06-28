@@ -3,9 +3,6 @@ package ar.com.grupoesfera.csd.pois.aceptacion.pasos;
 import static net.javacrumbs.jsonunit.spring.JsonUnitResultMatchers.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -13,6 +10,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import ar.com.grupoesfera.csd.pois.aceptacion.configuracion.ContextoCompartido;
 import ar.com.grupoesfera.csd.pois.modelos.Poi;
 import ar.com.grupoesfera.csd.pois.modelos.UbicacionActual;
+import ar.com.grupoesfera.csd.pois.repositorio.RepositorioDePoi;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,7 +19,6 @@ import io.cucumber.java.en.When;
 
 public class PoiMasCercanoPasos {
 
-    List<Poi> puntosDeInteres = new ArrayList<>();
     UbicacionActual ubicacionActualRecibida = new UbicacionActual();
 
     @Autowired
@@ -29,6 +26,9 @@ public class PoiMasCercanoPasos {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private RepositorioDePoi repositorioDePoi;
 
     @When("se recibe la ubicación del usuario")
     public void seRecibeLaUbicaciónDelUsuario() {
@@ -58,7 +58,8 @@ public class PoiMasCercanoPasos {
 
     @Given("que existe la ubicación {string} en latitud {double} y longitud {double}")
     public void queExisteLaUbicaciónEnLatitudYLongitud(String nombre, double latitud, double longitud) {
-        puntosDeInteres.add(new Poi( latitud,  longitud,  nombre,""));
+        
+    	repositorioDePoi.save(new Poi( latitud,  longitud,  nombre,""));
     }
 
     @And("que existe la ubicación del usuario en latitud {double} y longitud {double}")
